@@ -1,27 +1,27 @@
 const express = require("express");
 const morgan = require("morgan");
+const path = require("path");
+
+const PROJECTDIR = __dirname;
 
 const app = module.exports = express();
 
-// General Server Configuration
-app.configure(function() {
-	// Serve Public Assets
-	app.use(express.static(__dirname + '/public'));
-});
+// Serve Public Assets
+app.use(express.static(__dirname + '/public'));
+
 
 // Development-specific Server Configuration
-app.configure("development", function() {
+if (app.settings.env !== "production") {
 	// Log requests
 	app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
-});
+}
 
-// Basic Route
-
+// Basic Route Test
 app.get("/", function(req, res){
-	res.render('index.html');
+	res.sendfile("index.html", { root: path.join(PROJECTDIR, "public") });
 });
 
 // Listen for requests
 app.listen(8080, function() {
-	console.log("Server listening on port %d in %s mode", app.address().port, app.settings.env);
+	console.log("Server listening in \"%s\" mode", app.settings.env);
 });
