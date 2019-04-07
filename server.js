@@ -9,6 +9,8 @@ const app = module.exports = express();
 // Serve Public Assets
 app.use(express.static(__dirname + '/public'));
 
+// Serve angular from node_modules
+app.use("/node_modules", express.static(__dirname + '/node_modules'));
 
 // Development-specific Server Configuration
 if (app.settings.env !== "production") {
@@ -18,7 +20,10 @@ if (app.settings.env !== "production") {
 
 // Basic Route Test
 app.get("/", function(req, res) {
-    res.sendfile("index.html", { root: path.join(PROJECTDIR, "public") });
+    res.sendFile("index.html", { root: path.join(PROJECTDIR, "public") });
+});
+app.get("/test/", function(req, res) {
+    res.sendFile("index.html", { root: path.join(PROJECTDIR, "public") });
 });
 
 // Listen for requests
