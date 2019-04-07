@@ -29,10 +29,11 @@
   },
   "homepage": "https://github.com/GuilhermeRossato/Temperature-Watcher#readme",
   "dependencies": {
+    "angular": "^1.7.5",
+    "angular-route": "^1.7.8",
     "express": "^4.16.4",
     "mongoose": "^5.4.22",
-    "morgan": "^1.9.1",
-    "angular": "^1.7.5"
+    "morgan": "^1.9.1"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
