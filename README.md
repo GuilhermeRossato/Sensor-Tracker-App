@@ -15,7 +15,7 @@ npm install
 npm run serve
 ```
 
-This will spun a database server and a web server to run the application and reply requests at [localhost:8080](http://localhost:8080/).
+This will spun a web server to run the application and reply requests at [localhost:8080](http://localhost:8080/) with [nodemon](https://www.npmjs.com/package/nodemon), a module that automatically restarts the server when file changes are detected.
 
 ## Dependencies
 
@@ -26,6 +26,8 @@ This will spun a database server and a web server to run the application and rep
 
 ## Folder Organization
 
+The backend (Node + Express) folder structure is divided in these folders:
+
 - Controllers: App route handlers and Business Logic
 - Utils: Utility and globally-acessible helper functions
 - Middlewares: Process requests, filtering them before routing
@@ -34,5 +36,14 @@ This will spun a database server and a web server to run the application and rep
 - Public: Static resources
 - Views: Templates to be rendered by the server
 - Tests: Unit tests to verify functional behaviour
+
+The relevant frontend (AngularJS) folder structure are the following:
+
+- App: The main angularjs folder for the project
+	- Components: Small angular app sections of the project, containing some static resources, controllers and services.
+	- Shared: reusable components or partials of the website that can be used in any component
+- Public: Static resources to be served, including angularjs dependencies (and itself)
+
+The idea behind the frontend folder structure is scalability. Essentially it is a division of a large angular application, broken into parts called components.
 
 ## That's all for now
