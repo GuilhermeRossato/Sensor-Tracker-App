@@ -15,7 +15,7 @@ npm install
 npm run serve
 ```
 
-This will spun a web server to run the application and reply requests at [localhost:8080](http://localhost:8080/) with [nodemon](https://www.npmjs.com/package/nodemon), a module that automatically restarts the server when file changes are detected.
+This will start a web server to run the application and reply requests at [localhost:8080](http://localhost:8080/) with [nodemon](https://www.npmjs.com/package/nodemon), a module that automatically restarts the server when file changes are detected.
 
 ## Dependencies
 
@@ -37,7 +37,7 @@ The backend (Node + Express) folder structure is divided in these folders:
 - Views: Templates to be rendered by the server
 - Tests: Unit tests to verify functional behaviour
 
-The relevant frontend (AngularJS) folder structure are the following:
+The relevant frontend (AngularJS) folder structure is the following:
 
 - App: The main angularjs folder for the project
 	- Components: Small angular app sections of the project, containing some static resources, controllers and services.
