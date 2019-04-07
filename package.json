@@ -4,7 +4,7 @@
   "description": "A temperature watcher system to keep track of refrigerators and receive notifications about values outside of an acceptable range",
   "main": "index.js",
   "scripts": {
-    "serve": "node index.js",
+    "serve": "node server.js",
     "test": "echo \"Error: Tests not implemented\" && exit 1"
   },
   "repository": {
@@ -29,6 +29,10 @@
   },
   "homepage": "https://github.com/GuilhermeRossato/Temperature-Watcher#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "angular": "^1.7.5",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.22",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.10"
   }
 }
