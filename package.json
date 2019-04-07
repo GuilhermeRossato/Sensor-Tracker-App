@@ -1,0 +1,34 @@
+{
+  "name": "temperature-watcher",
+  "version": "0.1.0",
+  "description": "A temperature watcher system to keep track of refrigerators and receive notifications about values outside of an acceptable range",
+  "main": "index.js",
+  "scripts": {
+    "serve": "node index.js",
+    "test": "echo \"Error: Tests not implemented\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuilhermeRossato/Temperature-Watcher.git"
+  },
+  "keywords": [
+    "javascript",
+    "node",
+    "npm",
+    "express",
+    "refrigerator",
+    "temperature",
+    "watcher",
+    "tracker",
+    "automatic notification"
+  ],
+  "author": "Guilherme Rossato",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GuilhermeRossato/Temperature-Watcher/issues"
+  },
+  "homepage": "https://github.com/GuilhermeRossato/Temperature-Watcher#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
