@@ -22,7 +22,7 @@ class MongoDBClient extends Connection {
 	async connect(url = false) {
 		if (url === false) {
 			if (!global.CONN_STRING) {
-				await new Promise(resolve => setTimeout(resolve, 2000));
+				await new Promise(resolve => setTimeout(resolve, 4000));
 				if (!global.CONN_STRING) {
 					throw new Error("Could not determine default CONN_STRING from global variables");
 				}

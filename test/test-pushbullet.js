@@ -12,7 +12,6 @@ describe("Pushbullet API", function() {
 	var devices;
 	it("Should list devices", async function() {
 		devices = await pusher.devices();
-		console.log(devices);
 	});
 	it("Should send to all devices", async function() {
 		for (var deviceId in devices) {
