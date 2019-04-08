@@ -43,7 +43,7 @@ The relevant frontend (AngularJS) folder structure is the following:
 	- App: The main angularjs folder for the project
 		- Controllers: Controller functions that define behaviour, logic and data fetching.
 		- Components: Small angular app sections of the project, containing some static resources, controllers and services.
-		- Shared: reusable components or partials of the website that can be used in any component.
+		- Utils: reusable helper methods for the frontend
 
 ## Testing
 
