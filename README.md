@@ -17,6 +17,10 @@ npm run serve
 
 This will start a web server to run the application and reply requests at [localhost:8080](http://localhost:8080/) with [nodemon](https://www.npmjs.com/package/nodemon), a module that automatically restarts the server when file changes are detected.
 
+## Preview
+
+![Preview](https://github.com/GuilhermeRossato/Temperature-Watcher/blob/master/public/preview.png?raw=true)
+
 ## Dependencies
 
 - Angularjs: Frontend framework to help with PWA development
