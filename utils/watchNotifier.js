@@ -20,7 +20,6 @@ async function sendPushBulletMessage(title, message) {
             var iden = device.iden;
             await pusher.note(iden, title, message)
         }
-        console.log(devices);
     } catch (err) {
         console.log("Could not send to pushbullet:");
         console.error(err);
