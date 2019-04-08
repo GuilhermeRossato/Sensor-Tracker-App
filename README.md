@@ -46,4 +46,14 @@ The relevant frontend (AngularJS) folder structure is the following:
 
 The idea behind the frontend folder structure is scalability. Essentially it is a division of a large angular application, broken into parts called components.
 
+## Database
+
+The database used is a MongoDB, the local server provided (for tests and development) is a memory-based server from the [mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server) package.
+
+The classes at `./utils/MongoDBClient.js` and `./utils/MongoDBServer.js` are wrappers that abstract the previously mentioned modules.
+
+Every database operation should be done through the [mongoose](https://www.npmjs.com/package/mongoose) ORM and the models and schemas are defined at the `./models` folder.
+
+The basic usage of the ORM, local database server and client can be observed at `./test/test-database.js`.
+
 ## That's all for now
