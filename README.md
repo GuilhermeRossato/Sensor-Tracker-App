@@ -46,6 +46,14 @@ The relevant frontend (AngularJS) folder structure is the following:
 
 The idea behind the frontend folder structure is scalability. Essentially it is a division of a large angular application, broken into parts called components.
 
+## Testing
+
+Mocha (testing) and Chai (assertion / expectancy) modules are used for testing, to test every aspect of the application you can do the following:
+
+```
+npm run test
+```
+
 ## Database
 
 The database used is a MongoDB, the local server provided (for tests and development) is a memory-based server from the [mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server) package.
