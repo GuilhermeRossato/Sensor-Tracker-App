@@ -5,4 +5,9 @@ angular.module('TemperatureWatcher').config(function ($routeProvider, $locationP
         controller: 'IndexController',
         templateUrl: "app/controllers/index/IndexTemplate.html"
     });
+
+    $routeProvider.when("/test/", {
+        controller: 'IndexController',
+        templateUrl: "app/controllers/index/IndexTemplate.html"
+    });
 });
