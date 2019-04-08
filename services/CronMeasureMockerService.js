@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const MongoDBClient = require("./MongoDBClient.js");
+const MongoDBClient = require("../utils/MongoDBClient.js");
 const Measurement = require("../models/Measurement.js");
 const MeasurementGroup = require("../models/MeasurementGroup.js");
 
@@ -43,15 +43,40 @@ async function executeAllReadings() {
     }
 }
 
-function cronMeasureMocker() {
-    cron.schedule('* * * * *', function() {
-        executeAllReadings();
-        setTimeout(executeAllReadings, 15000);
-        setTimeout(executeAllReadings, 30000);
-        setTimeout(executeAllReadings, 45000);
-    });
-    setTimeout(executeAllReadings, 7500);
-    setTimeout(executeAllReadings, 9000);
+/**
+ * Adds fake values to the measurements database to simulate real data
+ */
+class CronMeasureMockerService {
+    /**
+     * Executes 1 minute worth of mockery
+     */
+    static cron() {
+        const timesPerMinute = 4;
+
+        for (let i = 0; i < 60; i+= 60/timesPerMinute) {
+            setTimeout(executeAllReadings, i*1000);
+        }
+    }
+
+
+    /**
+     * Starts the cron
+     */
+    static start() {
+        this.task = cron.schedule('* * * * *', this.cron.bind(this));
+        this.cron();
+    }
+
+    /**
+     * Stops de cron
+     */
+    static stop() {
+        if (!this.task) {
+            return console.warn("No task to stop");
+        }
+        this.task.destroy();
+        this.task = undefined;
+    }
 }
 
-module.exports = cronMeasureMocker;
+module.exports = CronMeasureMockerService;

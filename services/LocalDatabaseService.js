@@ -46,11 +46,38 @@ async function addDefaultBeers() {
 	await Promise.all(defaultBeers.map((beer) => addBeer(beer.name, beer.min, beer.max)));
 }
 
-async function handleLocalServer() {
-	mongoServer = new MongoDBServer();
-	await mongoServer.start();
-	addDefaultBeers().catch(console.error);
-	return mongoServer.mongoUri;
+class LocalDatabaseService {
+
+    /**
+     * Starts the local MongoDB server
+     *
+     * @return {Promise} A promise that resolves when the server is successfully started
+     */
+	static async start() {
+		this.mongoServer = new MongoDBServer();
+		await this.mongoServer.start();
+		addDefaultBeers().catch(console.error);
+		this.connectionString = this.mongoServer.mongoUri;
+		return this.connectionString;
+	}
+
+    /**
+     * Stops the database server
+     *
+     * @return {Promise} A promise that resolves when the server is successfully stopped
+     */
+	static async stop() {
+		await this.mongoServer.stop();
+	}
+
+	/**
+	 * Returns the MongoDB Server wrapper
+	 *
+	 * @return {MongoDBServer}
+	 */
+	static getInstance() {
+		return this.mongoServer;
+	}
 }
 
-module.exports = handleLocalServer;
+module.exports = LocalDatabaseService;

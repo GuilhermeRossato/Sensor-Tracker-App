@@ -41,13 +41,14 @@ The backend (Node + Express) folder structure is divided in these folders:
 - Routes: Define routes and connections for http methods
 - Public: Static resources
 - Views: Templates to be rendered by the server
-- Tests: Unit tests to verify functional behaviour
+- Tests: Unit tests to verify functional behavior
+- Services: Active services and cron jobs that can be started and stopped
 
 The relevant frontend (AngularJS) folder structure is the following:
 
 - Public: Static resources to be served, including angularjs dependencies (and itself)
 	- App: The main angularjs folder for the project
-		- Controllers: Controller functions that define behaviour, logic and data fetching.
+		- Controllers: Controller functions that define behavior, logic and data fetching.
 		- Components: Small angular app sections of the project, containing some static resources, controllers and services.
 		- Utils: reusable helper methods for the frontend
 

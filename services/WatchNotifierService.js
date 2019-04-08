@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const MongoDBClient = require("./MongoDBClient.js");
+const MongoDBClient = require("../utils/MongoDBClient.js");
 const Measurement = require("../models/Measurement.js");
 const MeasurementGroup = require("../models/MeasurementGroup.js");
 const PushBullet = require('pushbullet');
@@ -26,9 +26,7 @@ async function sendPushBulletMessage(title, message) {
     }
 }
 
-async function getMeasurementGroups() {
-    const connection = new MongoDBClient();
-    await connection.connect();
+async function getMeasurementGroups(connection) {
     const groups = await MeasurementGroup.find({});
     if (!groups || !groups.length) {
         return [];
@@ -36,13 +34,10 @@ async function getMeasurementGroups() {
     return groups;
 }
 
-async function getLastMinuteMeasurements() {
-    const connection = new MongoDBClient();
-    await connection.connect();
-
+async function getLastMinuteMeasurements(connection) {
     const minutes = 1/4;
     const endDate = new Date();
-    const startDate = new Date(endDate.getTime() - minutes*60000);
+    const startDate = new Date(endDate.getTime() - minutes*15000);
 
     const measurements = await Measurement.find({
         date: {
@@ -57,14 +52,16 @@ async function getLastMinuteMeasurements() {
 }
 
 async function watchAndNotifyOutliers() {
-    const groups = await getMeasurementGroups();
-    const measurements = await getLastMinuteMeasurements();
-    var outliers = [];
+    const connection = new MongoDBClient();
+    await connection.connect();
+
+    const groups = await getMeasurementGroups(connection);
+    const measurements = await getLastMinuteMeasurements(connection);
+    const outliers = [];
 
     function findGroupById(group_id) {
         return groups.filter(group => group._id && group_id && group._id.toString() === group_id.toString())[0];
     }
-
 
     measurements.forEach(measurement => {
         const group = findGroupById(measurement.group_id);
@@ -86,21 +83,45 @@ async function watchAndNotifyOutliers() {
     }
 
     if (list.length > 0) {
-        sendPushBulletMessage(
-            (((list.length === 1)?"There is a beer":"There are "+list.length+" beers")+" outside the temperature range!"),
-            "The following containers are outside the temperature range:\n"+list.map(outlier=>(outlier.group.name+": "+outlier.measurement.value+" ºC")).join("\n")
-        );
+        const title = (((list.length === 1)?"There is a beer":"There are "+list.length+" beers")+" outside the temperature range!");
+        const message = "The following containers are outside the temperature range:\n"+list.map(outlier=>(outlier.group.name+": "+outlier.measurement.value+" ºC")).sort().join("\n");
+        sendPushBulletMessage(title, message);
     }
 }
 
-function startNotifier() {
-    cron.schedule('* * * * *', function() {
-        watchAndNotifyOutliers();
-        setTimeout(watchAndNotifyOutliers, 15000);
-        setTimeout(watchAndNotifyOutliers, 30000);
-        setTimeout(watchAndNotifyOutliers, 45000);
-    });
-    setTimeout(watchAndNotifyOutliers, 8000);
+/**
+ * Creates a cron to watch the values of measurements to send notifications when values are outside the accepted range
+ */
+class WatchNotifier {
+    /**
+     * Executes 1 minute worth of checks
+     */
+    static cron() {
+        const timesPerMinute = 4;
+
+        for (let i = 0; i < 60; i+= 60/timesPerMinute) {
+            setTimeout(watchAndNotifyOutliers, i*1000);
+        }
+    }
+
+    /**
+     * Starts the cron
+     */
+    static start() {
+        this.task = cron.schedule('* * * * *', this.cron.bind(this));
+        this.cron();
+    }
+
+    /**
+     * Stops de cron
+     */
+    static stop() {
+        if (!this.task) {
+            return console.warn("No task to stop");
+        }
+        this.task.destroy();
+        this.task = undefined;
+    }
 }
 
-module.exports = startNotifier;
+module.exports = WatchNotifier;
