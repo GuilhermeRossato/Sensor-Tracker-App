@@ -1,1 +1,1 @@
-angular.module('TemperatureWatcher', ['ngRoute']);
+angular.module('TemperatureWatcher', ['ngRoute', 'tc.chartjs']);

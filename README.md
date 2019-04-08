@@ -29,7 +29,7 @@ This will start a web server to run the application and reply requests at [local
 The backend (Node + Express) folder structure is divided in these folders:
 
 - Controllers: App route handlers and Business Logic
-- Utils: Utility and globally-acessible helper functions
+- Utils: Utility and globally-acessible helper functions (for backend only)
 - Middlewares: Process requests, filtering them before routing
 - Models: Schemas and middleware between the application and the database
 - Routes: Define routes and connections for http methods
@@ -39,12 +39,11 @@ The backend (Node + Express) folder structure is divided in these folders:
 
 The relevant frontend (AngularJS) folder structure is the following:
 
-- App: The main angularjs folder for the project
-	- Components: Small angular app sections of the project, containing some static resources, controllers and services.
-	- Shared: reusable components or partials of the website that can be used in any component
 - Public: Static resources to be served, including angularjs dependencies (and itself)
-
-The idea behind the frontend folder structure is scalability. Essentially it is a division of a large angular application, broken into parts called components.
+	- App: The main angularjs folder for the project
+		- Controllers: Controller functions that define behaviour, logic and data fetching.
+		- Components: Small angular app sections of the project, containing some static resources, controllers and services.
+		- Shared: reusable components or partials of the website that can be used in any component.
 
 ## Testing
 
