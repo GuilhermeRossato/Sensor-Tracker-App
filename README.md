@@ -45,6 +45,21 @@ The relevant frontend (AngularJS) folder structure is the following:
 		- Components: Small angular app sections of the project, containing some static resources, controllers and services.
 		- Utils: reusable helper methods for the frontend
 
+## Notification
+
+Every 15 seconds the server analizes (via a internal cron job) the last 15 seconds of measurements and if it detects that one or more measurements are outside the expected values it will send a external notification to let the user know something is amiss.
+
+The notifications are created and routed through [Pushbullet](https://www.pushbullet.com/) API. Make sure you configure the API key to send messages and receive notifications:
+
+1. Register and retrieve your [Access Token](https://www.pushbullet.com/#settings)
+2. Put your Pushbullet Access Token in your local enviroment variables, naming it `PUSHBULLET_ACCESS_TOKEN`
+3. Optioanlly download pushbullet to your browser, android or iOS to receive the notifications.
+4. Run this application, it will retrieve your access token via `process.env.PUSHBULLET_ACCESS_TOKEN`;
+
+The server will send to the endpoint (`https://api.pushbullet.com`) a warning message everytime it detects that one or more measurements are outside the expected values.
+
+-If you are testing locally, you can edit `./utils/cronMeasureMocker.js`'s `outlierChance` to something close to 0.5, which will more-or-less guarantee you get a notification every 15 seconds.
+
 ## Testing
 
 Mocha (testing) and Chai (assertion / expectancy) modules are used for testing, to test every aspect of the application you can do the following:
@@ -55,12 +70,14 @@ npm run test
 
 ## Database
 
-The database used is a MongoDB, the local server provided (for tests and development) is a memory-based server from the [mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server) package.
+The database used is a MongoDB, the local server provided (for tests and development) is a memory-based server from the [mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server) package and it's instanced at `./utils/localServerHandler.js`.
 
 The classes at `./utils/MongoDBClient.js` and `./utils/MongoDBServer.js` are wrappers that abstract the previously mentioned modules.
 
 Every database operation should be done through the [mongoose](https://www.npmjs.com/package/mongoose) ORM and the models and schemas are defined at the `./models` folder.
 
 The basic usage of the ORM, local database server and client can be observed at `./test/test-database.js`.
+
+The utility `cronMeasureMocker.js` generates values for readings, realistically this would be replaced by an actual sensor API to save the values to the database.
 
 ## That's all for now
