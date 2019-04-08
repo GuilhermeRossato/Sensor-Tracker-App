@@ -1,6 +1,6 @@
 {
   "name": "temperature-watcher",
-  "version": "0.3.0",
+  "version": "0.9.0",
   "description": "A temperature watcher system to keep track of refrigerators and receive notifications about values outside of an acceptable range",
   "main": "server.js",
   "scripts": {
