@@ -10,19 +10,34 @@ class MongoDBClient extends Connection {
 	constructor() {
 		super();
 		this.client = undefined;
+		if (!MongoDBClient.connections) {
+			MongoDBClient.connections = {};
+		}
 	}
 	/**
 	 * Assyncronously connects to a mongodb url
 	 * @param  {String} url  The connection string, starting with the mongodb:// protocol, followed by hostname and optionally a port
 	 * @throws Error         When the connections fails
 	 */
-	async connect(url = "mongodb://localhost:27017") {
-		if (typeof url === "string") {
+	async connect(url = false) {
+		if (url === false) {
+			if (!global.CONN_STRING) {
+				await new Promise(resolve => setTimeout(resolve, 2000));
+				if (!global.CONN_STRING) {
+					throw new Error("Could not determine default CONN_STRING from global variables");
+				}
+			}
+			url = global.CONN_STRING;
+		}
+		if (MongoDBClient.connections[url]) {
+			this.client = MongoDBClient.connections[url];
+		} else if (typeof url === "string") {
 			this.client = mongoose;
 			await this.client.connect(url, { useNewUrlParser: true });
 			mongoose.set('useNewUrlParser', true);
 			mongoose.set('useFindAndModify', false);
 			mongoose.set('useCreateIndex', true);
+			MongoDBClient.connections[url] = this.client;
 		} else {
 			throw new Error("Unexpected connect url parameter");
 		}
