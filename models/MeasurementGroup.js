@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const CacheReturn = require("../utils/CacheReturn.js");
 
 const schemaConfig = {
     name: {
@@ -14,15 +13,4 @@ const schemaConfig = {
 
 const schema = new mongoose.Schema(schemaConfig);
 
-schema.virtual('group', {
-    ref: 'MeasurementGroup',
-    localField: '_id',
-    foreignField: 'groupId',
-    justOne: false
-});
-
-const getMeasurementGroupModel = CacheReturn(
-    (client) => client.model("MeasurementGroup", schema)
-);
-
-module.exports = { getMeasurementGroupModel, schema };
+module.exports = mongoose.model("MeasurementGroup", schema);

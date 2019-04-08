@@ -18,7 +18,8 @@ class MongoDBClient extends Connection {
 	 */
 	async connect(url = "mongodb://localhost:27017") {
 		if (typeof url === "string") {
-			this.client = await mongoose.createConnection(url, { useNewUrlParser: true });
+			this.client = mongoose;
+			await this.client.connect(url, { useNewUrlParser: true });
 			mongoose.set('useNewUrlParser', true);
 			mongoose.set('useFindAndModify', false);
 			mongoose.set('useCreateIndex', true);
@@ -40,6 +41,9 @@ class MongoDBClient extends Connection {
 	 * @return {Promise}  A promise that resolves when the connection finishes closing
 	 */
 	async disconnect() {
+		if (this.client === mongoose) {
+			return await mongoose.connection.close();
+		}
 		this.verifyClient();
 		return await this.client.close();
 	}

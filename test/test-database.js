@@ -2,18 +2,22 @@ const {expect, assert} = require('chai');
 
 const MongoDBServer = require("../utils/MongoDBServer.js");
 const MongoDBClient = require("../utils/MongoDBClient.js");
-const {getMeasurementModel} = require("../models/Measurement.js");
-const {getMeasurementGroupModel} = require("../models/MeasurementGroup.js");
+const Measurement = require("../models/Measurement.js");
+const MeasurementGroup = require("../models/MeasurementGroup.js");
 
 
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 describe("Local Mongo Database", function() {
 	let mongoServer;
-	it("Should start the local MongoDB Server", async function() {
-		this.timeout(90000);
+	before(async function() {
 		mongoServer = new MongoDBServer();
 		await mongoServer.start();
+	});
+
+	it("Should have an active local MongoDB Server", async function() {
+		const instanceInfo = mongoServer.getInstanceInfo();
+		expect(instanceInfo.instance.isInstanceReady).to.be.true;
 	});
 
 	let client;
@@ -23,15 +27,9 @@ describe("Local Mongo Database", function() {
 		await client.connect(mongoUri);
 	});
 
-	let Measurement, MeasurementGroup;
-	it("Should setup schemas and models", async function() {
-		Measurement = getMeasurementModel(client.client);
-		MeasurementGroup = getMeasurementGroupModel(client.client);
-	});
-
-	let groupId;
+	let group;
 	it("Should insert a measurement group to the database", async function() {
-		const group = new MeasurementGroup({
+		group = new MeasurementGroup({
 			name: "Default",
 			min_value: 1,
 			max_value: 4,
@@ -39,7 +37,6 @@ describe("Local Mongo Database", function() {
 			creation_date: new Date("01/01/2019 15:00:00")
 		});
 		await group.save();
-		groupId = group._id;
 	});
 
 	it("Should insert a measurement to the database", async function() {
@@ -47,7 +44,7 @@ describe("Local Mongo Database", function() {
 			name: "Temperature",
 			value: 1,
 			measurement_date: new Date("01/01/2019 15:01:00"),
-			group_id: groupId
+			group_id: group._id
 		});
 		await measure.save();
 	});
@@ -57,32 +54,44 @@ describe("Local Mongo Database", function() {
 			name: "Temperature",
 			value: 2,
 			measurement_date: new Date("01/01/2019 15:02:00"),
-			group_id: groupId
+			group_id: group._id
 		});
 		await measure.save();
 	});
 
-	it("Should be able to retrieve all measurements", async function() {
-		var measurements = await Measurement.find();
+	it("Should retrieve all measurements", async function() {
+		const measurements = await Measurement.find();
 		assert.lengthOf(measurements, 2);
 		measurements.forEach((measure, index) => {
 			expect(measure.name).to.equal("Temperature");
 		});
 	});
 
-	it("Should be able to retrieve the first measurement by date range", async function() {
-		var startDate = new Date("01/01/2019 15:00:30");
-		var endDate = new Date("01/01/2019 15:01:30");
+	it("Should retrieve the first measurement by date range", async function() {
+		const startDate = new Date("01/01/2019 15:00:30");
+		const endDate = new Date("01/01/2019 15:01:30");
 
-		var measurements = await Measurement.find({
+		const measurements = await Measurement.find({
 			measurement_date: {
                 $gte: startDate,
                 $lte: endDate
 			}
 		});
 		assert.lengthOf(measurements, 1);
-		expect(measurements[0].name).to.equal("Temperature");
-		expect(measurements[0].value).to.equal(1);
+
+		const measure = measurements[0];
+		expect(measure.name).to.equal("Temperature");
+		expect(measure.value).to.equal(1);
+	});
+
+	it("Should retrieve all measurements by its group", async function() {
+		const group = await MeasurementGroup.findOne();
+		const measurements = await Measurement.find({group_id: group._id});
+		assert.lengthOf(measurements, 2);
+
+		measurements.forEach((measure, index) => {
+			expect(measure.name).to.equal("Temperature");
+		});
 	});
 
 	it("Should close the MongoDB Client Connection", async function() {
