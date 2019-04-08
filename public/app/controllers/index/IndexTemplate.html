@@ -1,12 +1,32 @@
 <div class="index-page" style="margin:10px">
-	<div class="time-to-render">
-		<span class="prefix">Angularjs took</span>
-		<span ng-bind="time.toFixed(2)"></span>
-		<span class="unit">ms</span>
-		<span class="sufix">to render this page</span>
-	</div>
-	<div class="route-list">
-		<a href="/test/">Click here to navigate to the second page</a>
+	<div class="container">
+		<div class="info">
+			<span class="prefix">Angularjs took</span>
+			<span ng-bind="time.toFixed(2)"></span>
+			<span class="unit">ms</span>
+			<span class="sufix">to render this area</span>
+		</div>
+		<div class="row">
+			<div class="column">
+				<h1>Homepage</h1>
+				<a href="/new-measurement/">New Measurement</a>
+			</div>
+		</div>
+		<div class="row no-measurement-row">
+			<div class="no-measurement-info">
+				<div class="title">
+					<h3>There are no measurements yet.</h3>
+				</div>
+				<div>
+					You can create a measurement clicking here: <a href="/new-measurement/">New Measurement</a>
+				</div>
+			</div>
+		</div>
+		<div class="row measurement-list-row">
+			<div class="column">
+				<h4>Measurement Name</h4>
+			</div>
+		</div>
 	</div>
 	<div>
 		<example-element></example-element>
