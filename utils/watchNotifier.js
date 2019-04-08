@@ -3,18 +3,28 @@ const MongoDBClient = require("./MongoDBClient.js");
 const Measurement = require("../models/Measurement.js");
 const MeasurementGroup = require("../models/MeasurementGroup.js");
 const PushBullet = require('pushbullet');
-const pusher = new PushBullet(process.env.PUSHBULLET_ACCESS_TOKEN);
 
+
+var pusher;
 async function sendPushBulletMessage(title, message) {
-    console.log("Sending pushbullet notification: "+title+"\n"+message);
-    const devices = await pusher.devices();
 
-    for (var deviceId in devices) {
-        var device = devices[deviceId];
-        var iden = device.iden;
-        await pusher.note(iden, title, message)
+    console.log("Sending pushbullet notification: "+title+"\n"+message);
+    try {
+        if (!pusher) {
+            pusher = new PushBullet(process.env.PUSHBULLET_ACCESS_TOKEN);
+        }
+        const devices = await pusher.devices();
+
+        for (var deviceId in devices) {
+            var device = devices[deviceId];
+            var iden = device.iden;
+            await pusher.note(iden, title, message)
+        }
+        console.log(devices);
+    } catch (err) {
+        console.log("Could not send to pushbullet:");
+        console.error(err);
     }
-    console.log(devices);
 }
 
 async function getMeasurementGroups() {
