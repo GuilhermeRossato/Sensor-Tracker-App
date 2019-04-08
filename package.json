@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "serve": "nodemon server.js",
-    "test": "echo \"Error: Tests not implemented\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,9 @@
     "morgan": "^1.9.1"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.1",
+    "mongodb-memory-server": "^4.2.2",
     "nodemon": "^1.18.10"
   }
 }
