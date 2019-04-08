@@ -64,7 +64,11 @@ The notifications are created and routed through [Pushbullet](https://www.pushbu
 
 The server will send to the endpoint (`https://api.pushbullet.com`) a warning message everytime it detects that one or more measurements are outside the expected values.
 
--If you are testing locally, you can edit `./utils/cronMeasureMocker.js`'s `outlierChance` to something close to 0.5, which will more-or-less guarantee you get a notification every 15 seconds.
+If you are testing locally, you can edit `./utils/cronMeasureMocker.js`'s `outlierChance` to something close to 0.5, which will more-or-less guarantee you get a notification every 15 seconds.
+
+The notifications inside pushbullet are in the following format:
+
+![Pushbullet Preview](https://github.com/GuilhermeRossato/Temperature-Watcher/blob/master/public/preview-mobile.png?raw=true)
 
 ## Testing
 
