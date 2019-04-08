@@ -2,9 +2,14 @@ const cron = require('node-cron');
 const MongoDBClient = require("./MongoDBClient.js");
 const Measurement = require("../models/Measurement.js");
 const MeasurementGroup = require("../models/MeasurementGroup.js");
+const PushBullet = require('pushbullet');
+const pusher = new PushBullet(process.env.PUSHBULLET_ACCESS_TOKEN);
 
 async function sendPushBulletMessage(title, message) {
     console.log("Sending pushbullet notification: "+title+"\n"+message);
+    pusher.devices(function(error, response) {
+        console.log(response);
+    });
 }
 
 async function getMeasurementGroups() {

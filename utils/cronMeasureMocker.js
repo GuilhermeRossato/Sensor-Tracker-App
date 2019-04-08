@@ -51,10 +51,6 @@ function cronMeasureMocker() {
         setTimeout(executeAllReadings, 45000);
     });
     setTimeout(executeAllReadings, 5000);
-    setTimeout(executeAllReadings, 6000);
-    setTimeout(executeAllReadings, 7000);
-    setTimeout(executeAllReadings, 8000);
-    setTimeout(executeAllReadings, 9000);
 }
 
 module.exports = cronMeasureMocker;
