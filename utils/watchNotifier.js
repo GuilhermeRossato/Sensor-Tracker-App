@@ -7,9 +7,14 @@ const pusher = new PushBullet(process.env.PUSHBULLET_ACCESS_TOKEN);
 
 async function sendPushBulletMessage(title, message) {
     console.log("Sending pushbullet notification: "+title+"\n"+message);
-    pusher.devices(function(error, response) {
-        console.log(response);
-    });
+    const devices = await pusher.devices();
+
+    for (var deviceId in devices) {
+        var device = devices[deviceId];
+        var iden = device.iden;
+        await pusher.note(iden, title, message)
+    }
+    console.log(devices);
 }
 
 async function getMeasurementGroups() {

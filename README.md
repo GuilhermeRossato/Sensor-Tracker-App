@@ -21,6 +21,8 @@ This will start a web server to run the application and reply requests at [local
 
 ![Preview](https://github.com/GuilhermeRossato/Temperature-Watcher/blob/master/public/preview.png?raw=true)
 
+The orange-colored values represent values that are currently outside their acceptable range.
+
 ## Dependencies
 
 - Angularjs: Frontend framework to help with PWA development
