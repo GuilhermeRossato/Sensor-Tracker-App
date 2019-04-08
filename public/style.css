@@ -42,3 +42,15 @@ body {
     justify-content: center;
     flex-wrap: wrap;
 }
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.measurement-view .last-update {
+    font-size: 10px;
+}
+
+.measurement-view .extra-information {
+    font-size: 10px;
+}
