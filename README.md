@@ -1,8 +1,8 @@
 # Temperature Watcher
 
-An incomplete application to keep track of a list of refrigerators temperatures and receive notifications when values go outside of the acceptable range.
+An application to keep track of a list of refrigerators temperatures and receive notifications when values go outside of the acceptable range.
 
-This node app is divided in logic parts using a Model-View-Controller ([MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)) architecture and developed with Test-Driven-Development ([TDD](https://en.wikipedia.org/wiki/Test-driven_development)) in mind. It uses [Express](https://expressjs.com/) + [Node](https://node.org/) on the backend and [AngularJS](https://angularjs.org/) on the frontend.
+This node app is divided in logic parts using a Model-View-Controller ([MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)) architecture. It uses [Express](https://expressjs.com/) + [Node](https://node.org/) on the backend and [AngularJS](https://angularjs.org/) on the frontend.
 
 ## Running the application
 
