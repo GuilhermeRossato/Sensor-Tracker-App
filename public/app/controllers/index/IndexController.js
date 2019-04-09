@@ -1,57 +1,72 @@
+async function loadMeasurements() {
+	let response, json;
+	try {
+		response = await fetch("/api/measurements");
+	} catch (err) {
+		console.warn(err);
+		return {
+			"error": true,
+			"message": err.stack
+		};
+	}
+	if (!response || !response.ok) {
+		return {
+			"error": true,
+			"message": "HTTP Error Status "+response.status
+		};
+	}
+	try {
+		json = await response.json();
+	} catch (err) {
+		console.warn(err);
+		return {
+			"error": true,
+			"message": err.stack
+		};
+	}
+	return json;
+}
+
 angular.module('TemperatureWatcher')
 .controller('IndexController', function IndexController($scope, $interval) {
 
 	let pullTimer;
+
+	$scope.startTimer = function(interval = 2000) {
+		if (pullTimer) {
+			$scope.stopTimer();
+		}
+		pullTimer = $interval($scope.refreshData, interval);
+	}
+
+	$scope.stopTimer = function() {
+		$interval.cancel(pullTimer);
+		pullTimer = undefined;
+	}
 	// Handle automatic updates
-	$scope.loadMeasurements = async function loadMeasurements(isFirst = false) {
+	$scope.refreshData = async function refreshData(isFirst = false) {
 		if ($scope.error) {
-			return $interval.cancel(pullTimer);
-		}
-		var response = await fetch("/api/measurements");
-
-		if (!response) {
-			$scope.loadingObject.loading = true;
-			$scope.error = "No response";
-			return false;
+			return $scope.stopTimer();
 		}
 
-		if (!response.ok) {
-			$scope.loadingObject.loading = true;
-			$scope.error = "Error HTTP Status: "+response.status.toString();
-			return false;
+		const measurements = await loadMeasurements();
+
+		if (!measurements || measurements.error) {
+			$scope.error = measurements.message;
+			$scope.$apply();
+			return $scope.stopTimer();
 		}
 
-		try {
-			json = await response.json();
-		} catch (err) {
-			console.error(err);
-			$scope.loadingObject.loading = true;
-			$scope.error = "JSON conversion failed: "+err.stack.toString();
-			return false;
-		}
+		$scope.measurements = measurements;
 
-		if (!json) {
-			return $interval.cancel(pullTimer);
-		}
-		if (!json.error) {
-			$scope.measurementsObject.measurements = json;
-		} else {
-			$scope.loadingObject.loading = true;
-			$scope.error = "Something went wrong";
-		}
-		$scope.loadingObject.loading = false;
-		$scope.timeObject.time = formatDateString(new Date());
+		$scope.loading = false;
+		$scope.lastUpdate = formatDateString(new Date());
 		$scope.$apply();
 	};
 
-	$scope.loadingObject = {
-		loading: true,
-	}
-	$scope.timeObject = {
-		time: 0
-	}
-
-	pullTimer = $interval($scope.loadMeasurements, 5000);
+	$scope.loading = true;
+	$scope.lastUpdate = "";
+	$scope.measurements = [];
 
 	$scope.$on('$destroy', function(){
 		if (pullTimer) {
@@ -59,9 +74,6 @@ angular.module('TemperatureWatcher')
 		}
 	});
 
-	$scope.loadMeasurements(true);
-
-	$scope.measurementsObject = {
-		measurements: []
-	};
+	$scope.refreshData(true);
+	$scope.startTimer();
 });

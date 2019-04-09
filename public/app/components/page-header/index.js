@@ -3,7 +3,7 @@ angular.module('TemperatureWatcher')
     templateUrl: 'app/components/page-header/template.html',
     controller: function($scope) {
         $scope.title = "random Title";
-        $scope.link = "/new-measurement/";
+        $scope.link = "/api//";
         $scope.linkLabel = "New Measurement";
 
         $scope.$watch('$ctrl.title', function(newVal, new2) {
@@ -21,7 +21,6 @@ angular.module('TemperatureWatcher')
                 $scope.link = newVal;
             }
         });
-
     },
     bindings: {
         title: '@',

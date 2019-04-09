@@ -1,13 +1,15 @@
 <div class="measurement-view" style="max-width: 400px;margin: 10px;">
 	<measurement-header name="title" values="measurement.values"></measurement-header>
 	<div class="values">
+		<div class="error-message" ng-if="error"></div>
 		<canvas
 			tc-chartjs-line
+			ng-if="!error"
 			chart-data="graphData"
 			chart-options="myOptions"
 			chart-plugins="myPlugins"
 			chart-click="onChartClick(event)"
 		></canvas>
 	</div>
-	<div class="extra-information align-right" ng-bind="limits"></div>
+	<div class="extra-information align-right" ng-bind="limitString"></div>
 </div>

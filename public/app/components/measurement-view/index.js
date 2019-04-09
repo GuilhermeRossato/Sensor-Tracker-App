@@ -2,20 +2,24 @@ angular.module('TemperatureWatcher')
 .component(elementNameToCamelCase('measurement-view'), {
     templateUrl: 'app/components/measurement-view/template.html',
     controller: function($scope) {
-        $scope.$watch('$ctrl.measurement', (newVal) => {
-            if (!newVal) {
-                $scope.measurement = {values:[]};
-            } else {
-                $scope.measurement = newVal;
-            }
+
+        const maxValuesToWatch = 5;
+
+        function onMeasurementUpdate(newMeasurement) {
+            $scope.measurement = newMeasurement ? newMeasurement : {values:[]}
+
             if (!$scope.measurement.values) {
-                $scope.graphData.labels = ["Missing values"];
-                $scope.graphData.datasets[0].data = [0];
+                $scope.error = "Missing values";
                 return false;
             }
+
+            updateGraph(newMeasurement);
+        }
+
+        function updateGraph(measurement) {
             let minValue;
             let maxValue;
-            const measures = $scope.measurement.values.map(function (measure) {
+            const measures = measurement.values.map(function (measure) {
                 if (typeof measure.date === "string") {
                     measure.date = new Date(measure.date);
                 }
@@ -29,38 +33,38 @@ angular.module('TemperatureWatcher')
                     "label": formatDateString(measure.date).substr(11),
                     "value": measure.value.toFixed(2)
                 }
-            }).filter((element, index, array) => (array.length - index <= 4));
+            }).filter((element, index, array) => (array.length - index <= maxValuesToWatch));
 
-            const isOutsideRange = (minValue < $scope.measurement.min_value || maxValue > $scope.measurement.max_value);
+            const isOutsideRange = (minValue < measurement.min_value || maxValue > measurement.max_value);
 
             const bgColor = isOutsideRange?"#EBA236":"#36A2EB";
 
-            const title = $scope.measurement.name+(isOutsideRange?"*":"");
+            const title = measurement.name+(isOutsideRange?"*":"");
             $scope.title = title;
             $scope.graphData.labels = measures.map(m => m.label);
             $scope.graphData.datasets[0].data = measures.map(m => m.value);
             $scope.graphData.datasets[0].backgroundColor[0] = bgColor;
             $scope.order = (isOutsideRange?1:2);
-            $scope.limits = "Min: "+$scope.measurement.min_value+"ºC - Max: "+$scope.measurement.max_value+"ºC";
-        });
+            $scope.limitString = "Min: "+measurement.min_value+"ºC - Max: "+measurement.max_value+"ºC";
+        }
 
-        $scope.$watch('$ctrl.measurements', (newVal) => newVal ? ($scope.measurements = newVal) : false);
+        $scope.$watch('$ctrl.measurement', onMeasurementUpdate);
+        $scope.$watch('$ctrl.measurements', (newList) => newList ? ($scope.measurements = newList) : false);
 
         $scope.graphData = {
-            labels: ["1","2","3","4"],
+            labels: ["1","2"],
             datasets: [
                 {
                     label: "Temperature Readings",
                     lineTension: 0.1,
-                    data: [3, 4, 5, 3],
+                    data: [3, 4],
                     backgroundColor: ["#36A2EB"],
                     hoverBackgroundColor: ["#36A2EB"]
                 }
             ]
         };
 
-        $scope.order = 2;
-        $scope.limits = "";
+        $scope.limitString = "";
 
         $scope.myOptions =  {
             legend: {
@@ -72,10 +76,6 @@ angular.module('TemperatureWatcher')
         };
 
         $scope.myPlugins = [{}];
-
-        $scope.onChartClick = function (event) {
-          console.log(event);
-        };
     },
     bindings: {
         measurement: '<',

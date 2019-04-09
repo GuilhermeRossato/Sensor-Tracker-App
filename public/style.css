@@ -14,6 +14,15 @@ body {
     margin: 0;
 }
 
+@media screen and (max-width: 610px) {
+    .homepage-header a {
+        display: none;
+    }
+    .homepage-header .title {
+        font-size: 30px;
+    }
+}
+
 .measurement-view {
     border: 1px solid #DDD;
     box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.45);

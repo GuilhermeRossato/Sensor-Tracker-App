@@ -1,27 +1,27 @@
 <div class="index-page" style="margin:10px">
 	<div class="container">
 		<div class="row">
-			<pre class='info'> <span class="prefix" ng-if="timeObject.time">The data in this report has been updated at:</span> <span ng-bind="timeObject.time"></span></pre>
+			<pre class='info'> <span class="prefix" ng-if="lastUpdate">The data in this report has been updated at:</span> <span ng-bind="lastUpdate"></span></pre>
 		</div>
 		<div class="row">
 			<div class="column">
 				<page-header title="Temperature Monitor" link-label="New Measurement" link="/api/dummy/"></page-header>
 			</div>
 		</div>
-		<div class="loading-message align-center" ng-if="loadingObject.loading === true && !error">
+		<div class="loading-message align-center" ng-if="loading === true && !error">
 			<h3>Loading values...</h3>
 		</div>
-		<div class="error-message align-center" ng-if="loadingObject.loading === true && error">
+		<div class="error-message align-center" ng-if="loading === true && error">
 			<h4 ng-bind="error"></h4>
 		</div>
-		<div class="row no-measurement-row" ng-if="loadingObject.loading === false && measurementsObject.measurements.length === 0">
+		<div class="row no-measurement-row" ng-if="loading === false && measurements.length === 0">
 			<div class="column">
 				<no-measurement></no-measurement>
 			</div>
 		</div>
-		<div class="row measurement-list-row ng-cloak" ng-if="loadingObject.loading === false && measurementsObject.measurements.length !== 0" ng-cloak>
+		<div class="row measurement-list-row ng-cloak" ng-if="loading === false && measurements.length !== 0" ng-cloak>
 			<div class="column">
-				<measurement-list measurements="measurementsObject.measurements"></measurement-list>
+				<measurement-list measurements="measurements"></measurement-list>
 			</div>
 		</div>
 	</div>
