@@ -28,7 +28,9 @@ The orange-colored values represent values that are currently outside their acce
 - Angularjs: Frontend framework to help with PWA development
 - Express: Web Application Framework and server to handle requests and the web protocol (HTTP)
 - Morgan: A request logger middleware to help with logging and debugging
-- Mongoose: An ORM to simplify and validate database calls
+- Mongoose: An ORM to simplify, organize, and validate database calls
+- Pushbullet: Device Connector to send notifications to other devices (computer and smartphones)
+- Miligram: Opinated CSS Framework to format and help with the graphical interface
 
 ## Folder Organization
 
@@ -65,7 +67,7 @@ The notifications are created and routed through [Pushbullet](https://www.pushbu
 
 The server will send to the endpoint (`https://api.pushbullet.com`) a warning message everytime it detects that one or more measurements are outside the expected values.
 
-If you are testing locally, you can edit `./utils/cronMeasureMocker.js`'s `outlierChance` to something close to 0.5, which will more-or-less guarantee you get a notification every 15 seconds.
+If you are testing locally, you can edit `./utils/CronMeasureMockerService.js`'s `outlierChance` to something close to 0.5, which will more-or-less guarantee you get a notification every 15 seconds.
 
 The notifications inside pushbullet are in the following format:
 
@@ -81,7 +83,7 @@ npm run test
 
 ## Database
 
-The database used is a MongoDB, the local server provided (for tests and development) is a memory-based server from the [mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server) package and it's instanced at `./utils/localServerHandler.js`.
+The database used is a MongoDB, the local server provided (for tests and development) is a memory-based server from the [mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server) package and it's instanced at `./service/LocalDatabaseService.js`.
 
 The classes at `./utils/MongoDBClient.js` and `./utils/MongoDBServer.js` are wrappers that abstract the previously mentioned modules.
 
@@ -89,6 +91,6 @@ Every database operation should be done through the [mongoose](https://www.npmjs
 
 The basic usage of the ORM, local database server and client can be observed at `./test/test-database.js`.
 
-The utility `cronMeasureMocker.js` generates values for readings, realistically this would be replaced by an actual sensor API to save the values to the database.
+The service `CronMeasureMockerService.js` generates values for readings, realistically this would be replaced by an actual sensor API to save the values to the database.
 
 ## That's all for now
