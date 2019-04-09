@@ -32,7 +32,7 @@ angular.module('TemperatureWatcher')
 
 	let pullTimer;
 
-	$scope.startTimer = function(interval = 2000) {
+	$scope.startTimer = function(interval = 5000) {
 		if (pullTimer) {
 			$scope.stopTimer();
 		}
