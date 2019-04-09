@@ -5,7 +5,7 @@ const MeasurementGroup = require("../models/MeasurementGroup.js");
 const PushBullet = require('pushbullet');
 
 
-var pusher;
+let pusher, devices;
 async function sendPushBulletMessage(title, message) {
 
     console.log("Sending pushbullet notification: "+title+"\n"+message);
@@ -13,11 +13,18 @@ async function sendPushBulletMessage(title, message) {
         if (!pusher) {
             pusher = new PushBullet(process.env.PUSHBULLET_ACCESS_TOKEN);
         }
-        const devices = await pusher.devices();
+        if (!devices) {
+            devices = await pusher.devices();
+        }
 
-        for (var deviceId in devices) {
-            var device = devices[deviceId];
-            var iden = device.iden;
+        let index = 0;
+        for (let deviceId in devices) {
+            index++;
+            if (index > 4) {
+                continue;
+            }
+            let device = devices[deviceId];
+            let iden = device.iden;
             await pusher.note(iden, title, message)
         }
     } catch (err) {
