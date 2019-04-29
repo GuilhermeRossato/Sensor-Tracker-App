@@ -1,4 +1,4 @@
-# Temperature Watcher
+# Fridge Temperature Watcher
 
 An application to keep track of a list of refrigerators temperatures and receive notifications when values go outside of the acceptable range.
 

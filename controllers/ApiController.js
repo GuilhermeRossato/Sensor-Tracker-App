@@ -58,7 +58,7 @@ class ApiController {
 	 */
 	static async insertDummyGroup(req, res) {
 		res.setHeader("Content-Type", "application/json");
-		const nameOptions = ["Default Beer", "Random Beer", "Pale Ale Beer", "Strong Ale", "Colorful Beer", "Fruit Beer"];
+		const nameOptions = ["Default Fridge", "Random Fridge", "Pale Ale Fridge", "Strong Ale", "Colorful Fridge", "Fruit Fridge"];
 		var randomName = nameOptions[Math.floor(nameOptions.length*Math.random())];
 		if (!randomName) {
 			randomName = "Dummy";

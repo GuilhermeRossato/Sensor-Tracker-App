@@ -94,7 +94,7 @@ async function watchAndNotifyOutliers() {
 	}
 
 	if (list.length > 0) {
-		const title = (((list.length === 1)?"There is a beer":"There are "+list.length+" beers")+" outside the temperature range!");
+		const title = (((list.length === 1)?"There is a fridge":"There are "+list.length+" fridges")+" outside the temperature range!");
 		const message = "The following containers are outside the temperature range:\n"+list.map(outlier=>(outlier.group.name+": "+outlier.measurement.value+" ºC")).sort().join("\n");
 		sendPushBulletMessage(title, message);
 	}

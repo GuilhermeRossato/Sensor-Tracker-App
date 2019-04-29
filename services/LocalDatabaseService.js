@@ -5,29 +5,29 @@ const MongoDBClient = require("../utils/MongoDBClient.js");
 const Measurement = require("../models/Measurement.js");
 const MeasurementGroup = require("../models/MeasurementGroup.js");
 
-const defaultBeers = [
+const defaultFridges = [
 	{
-		"name": "Beer 1 (Pilsner)",
+		"name": "Fridge 1 (Pilsner)",
 		"min": 4,
 		"max": 6
 	},{
-		"name": "Beer 2 (IPA)",
+		"name": "Fridge 2 (IPA)",
 		"min": 5,
 		"max": 6
 	},{
-		"name": "Beer 3 (Lager)",
+		"name": "Fridge 3 (Lager)",
 		"min": 4,
 		"max": 7
 	},{
-		"name": "Beer 4 (Stout)",
+		"name": "Fridge 4 (Stout)",
 		"min": 6,
 		"max": 8
 	},{
-		"name": "Beer 5 (Wheat beer)",
+		"name": "Fridge 5 (Wheat)",
 		"min": 3,
 		"max": 5
 	},{
-		"name": "Beer 6 (Pale Ale)",
+		"name": "Fridge 6 (Pale Ale)",
 		"min": 4,
 		"max": 6
 	}
@@ -42,7 +42,7 @@ class LocalDatabaseService {
      */
 	static async start() {
 
-		async function addBeer(name, min, max) {
+		async function addFridge(name, min, max) {
 			const connection = new MongoDBClient();
 			await connection.connect();
 			const group = MeasurementGroup({
@@ -53,13 +53,13 @@ class LocalDatabaseService {
 			return await group.save();
 		}
 
-		async function addDefaultBeers() {
-			await Promise.all(defaultBeers.map((beer) => addBeer(beer.name, beer.min, beer.max)));
+		async function addDefaultFridges() {
+			await Promise.all(defaultFridges.map((fridge) => addFridge(fridge.name, fridge.min, fridge.max)));
 		}
 
 		this.mongoServer = new MongoDBServer();
 		await this.mongoServer.start();
-		addDefaultBeers().catch(console.error);
+		addDefaultFridges().catch(console.error);
 		this.connectionString = this.mongoServer.mongoUri;
 		return this.connectionString;
 	}
