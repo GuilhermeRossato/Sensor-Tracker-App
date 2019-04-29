@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 /**
- * Applies every routing in the routes folder
+ * Applies every routing in this routes folder
  *
  * @param  {express.Server} app  The express server to apply the routes
  * @return {Number}              The number of route rules applied

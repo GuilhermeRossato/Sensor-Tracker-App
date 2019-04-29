@@ -1,32 +1,3 @@
-async function loadMeasurements() {
-	let response, json;
-	try {
-		response = await fetch("/api/measurements");
-	} catch (err) {
-		console.warn(err);
-		return {
-			"error": true,
-			"message": err.stack
-		};
-	}
-	if (!response || !response.ok) {
-		return {
-			"error": true,
-			"message": "HTTP Error Status "+response.status
-		};
-	}
-	try {
-		json = await response.json();
-	} catch (err) {
-		console.warn(err);
-		return {
-			"error": true,
-			"message": err.stack
-		};
-	}
-	return json;
-}
-
 angular.module('TemperatureWatcher')
 .controller('IndexController', function IndexController($scope, $interval) {
 
@@ -49,7 +20,7 @@ angular.module('TemperatureWatcher')
 			return $scope.stopTimer();
 		}
 
-		const measurements = await loadMeasurements();
+		const measurements = await requestApiResponse("/api/measurements");
 
 		if (!measurements || measurements.error) {
 			$scope.error = measurements.message;
