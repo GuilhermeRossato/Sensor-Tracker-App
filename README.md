@@ -25,12 +25,13 @@ The orange-colored values represent values that are currently outside their acce
 
 ## Dependencies
 
-- Angularjs: Frontend framework to help with PWA development
-- Express: Web Application Framework and server to handle requests and the web protocol (HTTP)
-- Morgan: A request logger middleware to help with logging and debugging
-- Mongoose: An ORM to simplify, organize, and validate database calls
-- Pushbullet: Device Connector to send notifications to other devices (computer and smartphones)
-- Miligram: Opinated CSS Framework to format and help with the graphical interface
+- [Angularjs](https://angularjs.org/): Frontend framework to help with PWA development.
+- [Express](https://expressjs.com/): Web Application Framework and server to handle requests and the web protocol (HTTP).
+- [Morgan](https://github.com/expressjs/morgan): A request logger middleware to help with logging and debugging.
+- [Mongoose](https://mongoosejs.com/): An object modeling tool to simplify, organize, and validate database calls.
+- [Pushbullet](https://www.pushbullet.com/): Device Connector to send notifications to other devices (computer and smartphones).
+- [Miligram](https://milligram.io/): Opinated CSS Framework to format and help with the graphical interface.
+- [ESLint](https://eslint.org/): A linter to enforce constant coding styling standard.
 
 ## Folder Organization
 
