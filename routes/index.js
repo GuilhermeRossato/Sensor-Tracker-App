@@ -1,4 +1,4 @@
-var fs = require('fs');
+var fs = require("fs");
 
 /**
  * Applies every routing in this routes folder
@@ -9,10 +9,10 @@ var fs = require('fs');
 function applyEveryRoute(app) {
 	let name, func, count = 0;
 	fs.readdirSync(__dirname).forEach(function(file) {
-		if (file === "index.js" || file.substr(file.lastIndexOf('.') + 1) !== 'js')
+		if (file === "index.js" || file.substr(file.lastIndexOf(".") + 1) !== "js")
 			return;
-		name = file.substr(0, file.indexOf('.'));
-		func = require('./' + name);
+		name = file.substr(0, file.indexOf("."));
+		func = require("./" + name);
 		if (func instanceof Function) {
 			count++;
 			func(app);

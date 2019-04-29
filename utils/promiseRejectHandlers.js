@@ -8,14 +8,14 @@
  */
 
 async function resolveOrDefault(promise, catchResult, logError = false) {
-    try {
-        return await promise;
-    } catch (err) {
-        if (logError === true) {
-            console.error(err);
-        }
-        return catchResult;
-    }
+	try {
+		return await promise;
+	} catch (err) {
+		if (logError === true) {
+			console.error(err);
+		}
+		return catchResult;
+	}
 }
 
 /**

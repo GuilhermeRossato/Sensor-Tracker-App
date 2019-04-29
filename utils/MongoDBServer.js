@@ -1,4 +1,4 @@
-const { MongoMemoryServer } = require('mongodb-memory-server');
+const { MongoMemoryServer } = require("mongodb-memory-server");
 
 /**
  * A wrapper for the volatile (in-memory) MongoDB Server that does not persist after being stopped
@@ -37,7 +37,7 @@ class MongoDBServer {
 		this.getInstanceInfo = this._getInstanceInfo;
 	}
 	_getInstanceInfo() {
-		return {}
+		return {};
 	}
 }
 

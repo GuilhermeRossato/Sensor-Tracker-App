@@ -1,5 +1,5 @@
 const Connection = require("./Connection.js");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 /**
  * A mongoose database client wrapper
@@ -35,9 +35,9 @@ class MongoDBClient extends Connection {
 		} else if (typeof url === "string") {
 			this.client = mongoose;
 			await this.client.connect(url, { useNewUrlParser: true });
-			mongoose.set('useNewUrlParser', true);
-			mongoose.set('useFindAndModify', false);
-			mongoose.set('useCreateIndex', true);
+			mongoose.set("useNewUrlParser", true);
+			mongoose.set("useFindAndModify", false);
+			mongoose.set("useCreateIndex", true);
 			MongoDBClient.connections[url] = this.client;
 		} else {
 			throw new Error("Unexpected connect url parameter");

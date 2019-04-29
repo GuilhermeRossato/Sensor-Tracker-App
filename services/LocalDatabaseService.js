@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: 0 */
+
 const MongoDBServer = require("../utils/MongoDBServer.js");
 const MongoDBClient = require("../utils/MongoDBClient.js");
 const Measurement = require("../models/Measurement.js");
@@ -33,7 +35,7 @@ const defaultBeers = [
 
 class LocalDatabaseService {
 
-    /**
+	/**
      * Starts the local MongoDB server
      *
      * @return {Promise} A promise that resolves when the server is successfully started
@@ -62,7 +64,7 @@ class LocalDatabaseService {
 		return this.connectionString;
 	}
 
-    /**
+	/**
      * Stops the database server
      *
      * @return {Promise} A promise that resolves when the server is successfully stopped

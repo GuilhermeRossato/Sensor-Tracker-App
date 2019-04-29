@@ -11,7 +11,7 @@ const CacheReturn = function(creationFunction) {
 			cache = creationFunction(...args);
 		}
 		return cache;
-	}
-}
+	};
+};
 
 module.exports = CacheReturn;

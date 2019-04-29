@@ -31,7 +31,7 @@ class ApiController {
 		const group = new Measurement({
 			group_id: group_id,
 			value: value,
-			date: new Date()
+			measurement_date: new Date()
 		});
 		await group.save();
 		return group;
@@ -57,7 +57,7 @@ class ApiController {
 	 * @param  {Response} res The expressjs response instance
 	 */
 	static async insertDummyGroup(req, res) {
-		res.setHeader('Content-Type', 'application/json');
+		res.setHeader("Content-Type", "application/json");
 		const nameOptions = ["Default Beer", "Random Beer", "Pale Ale Beer", "Strong Ale", "Colorful Beer", "Fruit Beer"];
 		var randomName = nameOptions[Math.floor(nameOptions.length*Math.random())];
 		if (!randomName) {
@@ -107,7 +107,7 @@ class ApiController {
 	 * @param  {Response} res The expressjs response instance
 	 */
 	static async listMeasurements(req, res) {
-		res.setHeader('Content-Type', 'application/json');
+		res.setHeader("Content-Type", "application/json");
 
 		const results = await resolveOrError(ApiController.getAllGroups());
 

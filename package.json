@@ -4,7 +4,7 @@
   "description": "A temperature watcher system to keep track of refrigerators and receive notifications about values outside of an acceptable range",
   "main": "server.js",
   "scripts": {
-    "lint": "eslint . --fix-dry-run",
+    "lint": "eslint . --fix",
     "serve": "nodemon server.js",
     "test": "mocha"
   },

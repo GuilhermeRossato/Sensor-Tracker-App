@@ -1,4 +1,4 @@
-const cron = require('node-cron');
+const cron = require("node-cron");
 const MongoDBClient = require("../utils/MongoDBClient.js");
 const Measurement = require("../models/Measurement.js");
 const MeasurementGroup = require("../models/MeasurementGroup.js");
@@ -36,7 +36,7 @@ async function executeAllReadings() {
 			group_id: group._id,
 			value: value,
 			date: new Date()
-		}
+		};
 	});
 	let result;
 	if (objects && objects.length) {
@@ -65,7 +65,7 @@ class CronMeasureMockerService {
 	 * Starts the cron
 	 */
 	static start() {
-		this.task = cron.schedule('* * * * *', this.cron.bind(this));
+		this.task = cron.schedule("* * * * *", this.cron.bind(this));
 		this.cron();
 	}
 

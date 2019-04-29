@@ -9,5 +9,5 @@
  * @return {String}   The string separated by dashes (minus)
  */
 function camelCaseToElementName(s) {
-	return (s.replace(/(?:^|\.?)([A-Z])/g, function (x,y){return "-" + y.toLowerCase()}).replace(/^-/, ""));
+	return (s.replace(/(?:^|\.?)([A-Z])/g, function (x,y){return "-" + y.toLowerCase();}).replace(/^-/, ""));
 }
