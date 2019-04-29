@@ -4,11 +4,13 @@ const Measurement = require("../models/Measurement.js");
 const MeasurementGroup = require("../models/MeasurementGroup.js");
 const PushBullet = require('pushbullet');
 
-
 let pusher, devices;
 async function sendPushBulletMessage(title, message) {
 
-    console.log("Sending pushbullet notification: "+title+"\n"+message);
+    console.log("Sending notification: "+title+"\n"+message);
+    if (!process.env.PUSHBULLET_ACCESS_TOKEN) {
+        return console.log("Could not send pushbullet notification: Missing Access Token");
+    }
     try {
         if (!pusher) {
             pusher = new PushBullet(process.env.PUSHBULLET_ACCESS_TOKEN);
@@ -28,7 +30,7 @@ async function sendPushBulletMessage(title, message) {
             await pusher.note(iden, title, message)
         }
     } catch (err) {
-        console.log("Could not send to pushbullet:");
+        console.log("Could not send pushbullet notification:");
         console.error(err);
     }
 }

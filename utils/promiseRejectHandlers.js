@@ -18,4 +18,23 @@ async function resolveOrDefault(promise, catchResult, logError = false) {
     }
 }
 
-module.exports = { resolveOrDefault };
+/**
+ * Attemps to resolve a promie and return its value, but returns the error object incase it rejects.
+ *
+ * @param  {Unresolved Promise}  promise      The promise to be awaited on
+ * @param  {mixed}               catchResult  The object of any type to be returned if the promise fails
+ * @param  {Boolean} logError    logError     Whenever the error raised by the promise is to be logged to console.error
+ * @return {mixed}               The promise resolved return on success or the catchResult parameter value if it failed
+ */
+
+async function resolveOrError(promise, logError = false) {
+	try {
+		return await promise;
+	} catch (err) {
+		if (logError === true) {
+			console.error(err);
+		}
+		return err;
+	}
+}
+module.exports = { resolveOrDefault, resolveOrError };

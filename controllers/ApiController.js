@@ -1,10 +1,11 @@
 const MongoDBClient = require("../utils/MongoDBClient.js");
 const Measurement = require("../models/Measurement.js");
 const MeasurementGroup = require("../models/MeasurementGroup.js");
+const { resolveOrError } = require("../utils/promiseRejectHandlers.js");
 
 class ApiController {
 	static async getConnection() {
-		var self = ApiController;
+		const self = ApiController;
 		if (!self.connection) {
 			self.connection = new MongoDBClient();
 			await self.connection.connect();
@@ -48,6 +49,13 @@ class ApiController {
 		return measurements;
 	}
 
+
+	/**
+	 * Adds a dummy group to the measurements groups to simulate a new temperature sensor
+	 *
+	 * @param  {Request} req  The expressjs request instance
+	 * @param  {Response} res The expressjs response instance
+	 */
 	static async insertDummyGroup(req, res) {
 		res.setHeader('Content-Type', 'application/json');
 		const nameOptions = ["Default Beer", "Random Beer", "Pale Ale Beer", "Strong Ale", "Colorful Beer", "Fruit Beer"];
@@ -61,36 +69,53 @@ class ApiController {
 		res.end(JSON.stringify(result));
 	}
 
-	static async listMeasurements(req, res) {
-		res.setHeader('Content-Type', 'application/json');
-
+	static async getAllGroups() {
 		const groups = await ApiController.fetchMeasurementGroups();
 		const measurements = await ApiController.fetchMeasurements();
-
 		if (!groups.length) {
-			res.end(JSON.stringify([]));
-			return false;
+			return [];
 		}
 
-		const result = groups.map(group => ({
+		const results = groups.map(group => ({
 			_id: group._id,
 			name: group.name,
 			min_value: group.min_value,
 			max_value: group.max_value,
 			values: []
-		}))
+		}));
+
 
 		function findResultByGroupId(group_id) {
-			return result.filter(group => group._id && group_id && group._id.toString() === group_id.toString())[0];
+			return results.filter(group => group._id && group_id && group._id.toString() === group_id.toString())[0];
 		}
 
 		measurements.forEach(measurement => {
-			var group = findResultByGroupId(measurement.group_id);
-			if (group) {
-				group.values.push(measurement);
+			const group = findResultByGroupId(measurement.group_id);
+			if (!group) {
+				return;
 			}
+			group.values.push(measurement);
 		});
-		res.end(JSON.stringify(result));
+
+		return results;
+	}
+
+	/**
+	 * Respond to the request with a list of all measurement groups and their measures
+	 *
+	 * @param  {Request} req  The expressjs request instance
+	 * @param  {Response} res The expressjs response instance
+	 */
+	static async listMeasurements(req, res) {
+		res.setHeader('Content-Type', 'application/json');
+
+		const results = await resolveOrError(ApiController.getAllGroups());
+
+		if (results instanceof Error) {
+			return res.end(JSON.stringify({"error": true, "message": results.stack}));
+		}
+
+		res.end(JSON.stringify(results));
 	}
 }
 
