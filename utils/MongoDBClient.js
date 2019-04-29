@@ -14,6 +14,7 @@ class MongoDBClient extends Connection {
 			MongoDBClient.connections = {};
 		}
 	}
+
 	/**
 	 * Assyncronously connects to a mongodb url
 	 * @param  {String} url  The connection string, starting with the mongodb:// protocol, followed by hostname and optionally a port
@@ -42,6 +43,7 @@ class MongoDBClient extends Connection {
 			throw new Error("Unexpected connect url parameter");
 		}
 	}
+
 	/**
 	 * Helper function to check if the client is correctly connected
 	 * @throws Error  When the client is missing or invalid
@@ -51,6 +53,7 @@ class MongoDBClient extends Connection {
 			throw new Error("A valid MongoDB Connection is missing. Generate one by calling the 'connect' method.");
 		}
 	}
+
 	/**
 	 * Closes the currenct connection
 	 * @return {Promise}  A promise that resolves when the connection finishes closing
@@ -62,6 +65,7 @@ class MongoDBClient extends Connection {
 		this.verifyClient();
 		return await this.client.close();
 	}
+
 	/**
 	 * Alias for disconnect
 	 * @return {Promise}  A promise that resolves when the connection finishes closing
@@ -69,6 +73,7 @@ class MongoDBClient extends Connection {
 	close() {
 		return this.disconnect();
 	}
+
 	/**
 	 * Helper function to check if the collection exists and is valid
 	 * @throws Error  When the collection is missing or invalid
@@ -78,19 +83,16 @@ class MongoDBClient extends Connection {
 			throw new Error("A valid Mongo Collection is missing. Generate one by calling the 'section' method.");
 		}
 	}
+
 	/**
 	 * Defines the table in which the next operations will take place, creating it if it does not exist
 	 * @param  {string} tableName  The table name or section to be selected
 	 */
 	async section(tableName) {
 		this.verifyClient();
-		console.log("verified section client");
 		this.collection = this.client.db(tableName);
-		if (!this.collection) {
-
-		}
-		console.log("client is", this.collection);
 	}
+
 	/**
 	 * Alias for section method
 	 * @param  {string} tableName  The table name or section to be selected
@@ -98,6 +100,7 @@ class MongoDBClient extends Connection {
 	db(tableName) {
 		return this.section(tableName);
 	}
+
 	/**
 	 * Alias for section method
 	 * @param  {string} tableName  The table name or section to be selected
@@ -113,32 +116,6 @@ class MongoDBClient extends Connection {
 	 */
 	insert(data) {
 		this.verifyCollection();
-		if (!this.client.insert) {
-			console.warn("this.client.insert missing");
-		}
-		if (!this.client.create) {
-			console.warn("this.client.create missing");
-		}
-		if (!this.collection.insert) {
-			console.warn("this.collection.insert missing");
-		}
-		if (!this.collection.create) {
-			console.warn("this.collection.create missing");
-		}
-		if (!this.client.insertMany) {
-			console.warn("this.client.insertMany missing");
-		}
-		if (!this.client.createMane) {
-			console.warn("this.client.createMane missing");
-		}
-		if (!this.collection.insertMany) {
-			console.warn("this.collection.insertMany missing");
-		}
-		if (!this.collection.createMane) {
-			console.warn("this.collection.createMane missing");
-		}
-		return false;
-		console.log(Object.getOwnPropertyNames(this.client));
 		return this.client.insert(data);
 	}
 

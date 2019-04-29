@@ -1,4 +1,6 @@
 <div class="homepage-header">
 	<h1 class="title" ng-bind="title"></h1>
-	<a ng-href="{{ link }}" ng-if="linkLabel" class="new-measurement-link" ng-bind="linkLabel"></a>
+	<form target="_blank" action="{{ link }}" method="POST">
+		<input class="new-measurement-link" type="submit" value="{{ linkLabel }}" />
+	</form>
 </div>

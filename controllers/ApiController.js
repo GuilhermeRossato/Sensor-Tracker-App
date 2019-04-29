@@ -1,4 +1,3 @@
-const path = require("path");
 const MongoDBClient = require("../utils/MongoDBClient.js");
 const Measurement = require("../models/Measurement.js");
 const MeasurementGroup = require("../models/MeasurementGroup.js");
@@ -59,7 +58,7 @@ class ApiController {
 		const result = await ApiController.saveNewMeasurementGroup(randomName, 1, 3);
 		await ApiController.saveNewMeasurement(result._id, 1+Math.random()*2);
 		await ApiController.saveNewMeasurement(result._id, 1+Math.random()*2);
-    	res.end(JSON.stringify(result));
+		res.end(JSON.stringify(result));
 	}
 
 	static async listMeasurements(req, res) {
@@ -67,8 +66,9 @@ class ApiController {
 
 		const groups = await ApiController.fetchMeasurementGroups();
 		const measurements = await ApiController.fetchMeasurements();
+
 		if (!groups.length) {
-    		res.end(JSON.stringify([]));
+			res.end(JSON.stringify([]));
 			return false;
 		}
 
@@ -90,7 +90,7 @@ class ApiController {
 				group.values.push(measurement);
 			}
 		});
-    	res.end(JSON.stringify(result));
+		res.end(JSON.stringify(result));
 	}
 }
 

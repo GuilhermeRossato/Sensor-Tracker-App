@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: 0 */
+
 /**
  * Interface to be used as template for future connection classes
  */

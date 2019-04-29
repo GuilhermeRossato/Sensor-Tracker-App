@@ -31,21 +31,6 @@ const defaultBeers = [
 	}
 ];
 
-async function addBeer(name, min, max) {
-	const connection = new MongoDBClient();
-	await connection.connect();
-	const group = MeasurementGroup({
-		"name": name,
-		"min_value": min,
-		"max_value": max
-	});
-	return await group.save();
-}
-
-async function addDefaultBeers() {
-	await Promise.all(defaultBeers.map((beer) => addBeer(beer.name, beer.min, beer.max)));
-}
-
 class LocalDatabaseService {
 
     /**
@@ -54,6 +39,22 @@ class LocalDatabaseService {
      * @return {Promise} A promise that resolves when the server is successfully started
      */
 	static async start() {
+
+		async function addBeer(name, min, max) {
+			const connection = new MongoDBClient();
+			await connection.connect();
+			const group = MeasurementGroup({
+				"name": name,
+				"min_value": min,
+				"max_value": max
+			});
+			return await group.save();
+		}
+
+		async function addDefaultBeers() {
+			await Promise.all(defaultBeers.map((beer) => addBeer(beer.name, beer.min, beer.max)));
+		}
+
 		this.mongoServer = new MongoDBServer();
 		await this.mongoServer.start();
 		addDefaultBeers().catch(console.error);

@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: off */
+
 /**
  * Attempts to resolves a Promise and return its value, but wrap it so that instead of an error it returns a default value
  *

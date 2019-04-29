@@ -5,9 +5,6 @@ const MongoDBClient = require("../utils/MongoDBClient.js");
 const Measurement = require("../models/Measurement.js");
 const MeasurementGroup = require("../models/MeasurementGroup.js");
 
-
-const { MongoMemoryServer } = require('mongodb-memory-server');
-
 describe("Local Mongo Database", function() {
     let mongoServer;
     before(async function() {
@@ -62,7 +59,7 @@ describe("Local Mongo Database", function() {
     it("Should retrieve all measurements", async function() {
         const measurements = await Measurement.find();
         assert.lengthOf(measurements, 2);
-        measurements.forEach((measure, index) => {
+        measurements.forEach((measure) => {
             expect(measure.name).to.equal("Temperature");
         });
     });
@@ -89,7 +86,7 @@ describe("Local Mongo Database", function() {
         const measurements = await Measurement.find({group_id: group._id});
         assert.lengthOf(measurements, 2);
 
-        measurements.forEach((measure, index) => {
+        measurements.forEach((measure) => {
             expect(measure.name).to.equal("Temperature");
         });
     });

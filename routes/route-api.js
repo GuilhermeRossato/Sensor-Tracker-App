@@ -1,4 +1,3 @@
-const path = require("path");
 const ApiController = require("../controllers/ApiController.js");
 
 function applyRoute(app) {
