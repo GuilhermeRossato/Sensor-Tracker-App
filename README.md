@@ -1,6 +1,6 @@
-# Fridge Temperature Watcher
+# SensorFridge Temperature Watcher
 
-An application to keep track of a list of refrigerators temperatures and receive notifications when values go outside of the acceptable range.
+An application to keep track of a list of refrigerators temperatures and send notifications when sensor readings go outside of the acceptable range. Additionally it shows (in it's frontend) the reading history, so that you can watch the readings in real time.
 
 This node app is divided in logic parts using a Model-View-Controller ([MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)) architecture. It uses [Express](https://expressjs.com/) + [Node](https://node.org/) on the backend and [AngularJS](https://angularjs.org/) on the frontend.
 
@@ -22,6 +22,8 @@ This will start a web server to run the application and reply requests at [local
 ![Preview](https://github.com/GuilhermeRossato/Temperature-Watcher/blob/master/public/preview.png?raw=true)
 
 The orange-colored values represent values that are currently outside their acceptable range.
+
+Obs: Even if you are looking at the values outside their range the app will still try to send a notification if you configured the pushbullet API (which is explained in a later section of this readme).
 
 ## Dependencies
 
@@ -47,7 +49,7 @@ The backend (Node + Express) folder structure is divided in these folders:
 - Tests: Unit tests to verify functional behavior
 - Services: Active services and cron jobs that can be started and stopped
 
-The relevant frontend (AngularJS) folder structure is the following:
+The relevant frontend (**AngularJS**) folder structure is the following:
 
 - Public: Static resources to be served, including angularjs dependencies (and itself)
 	- App: The main angularjs folder for the project
@@ -59,11 +61,11 @@ The relevant frontend (AngularJS) folder structure is the following:
 
 Every 15 seconds the server analizes (via a internal cron job) the last 15 seconds of measurements and if it detects that one or more measurements are outside the expected values it will send a external notification to let the user know something is amiss.
 
-The notifications are created and routed through [Pushbullet](https://www.pushbullet.com/) API. Make sure you configure the API key to send messages and receive notifications:
+The notifications are created and routed through [Pushbullet](https://www.pushbullet.com/) API and are supposed to be shown in your smartphone as a mobile notification. Make sure you configure the API key to receive notifications:
 
 1. Register and retrieve your [Access Token](https://www.pushbullet.com/#settings)
 2. Put your Pushbullet Access Token in your local enviroment variables, naming it `PUSHBULLET_ACCESS_TOKEN`
-3. Optioanlly download pushbullet to your browser, android or iOS to receive the notifications.
+3. Optionally download pushbullet to your browser, android or iOS to receive the notifications.
 4. Run this application, it will retrieve your access token via `process.env.PUSHBULLET_ACCESS_TOKEN`;
 
 The server will send to the endpoint (`https://api.pushbullet.com`) a warning message everytime it detects that one or more measurements are outside the expected values.
@@ -76,11 +78,13 @@ The notifications inside pushbullet are in the following format:
 
 ## Testing
 
-Mocha (testing) and Chai (assertion / expectancy) modules are used for testing, to test every aspect of the application you can do the following:
+Mocha (testing) and Chai (assertion / expectancy) modules are used for testing, to test some aspect of the application you can do the following:
 
 ```
 npm run test
 ```
+
+The tests are not complete, their purpose is to serve as examples of how some aspects of the application can be tested.
 
 ## Database
 
