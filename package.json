@@ -1,16 +1,16 @@
 {
-  "name": "temperature-watcher",
+  "name": "sensor-tracking-app",
   "version": "1.0.0",
-  "description": "A temperature watcher system to keep track of refrigerators and receive notifications about values outside of an acceptable range",
+  "description": "A temperature watcher system to keep track of sensor readings and receive notifications about values that go outside of their acceptable range",
   "main": "server.js",
   "scripts": {
-    "lint": "eslint . --fix",
     "serve": "nodemon server.js",
+    "lint": "eslint . --fix",
     "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GuilhermeRossato/Temperature-Watcher.git"
+    "url": "git+https://github.com/GuilhermeRossato/Sensor-Tracker-App.git"
   },
   "keywords": [
     "javascript",
@@ -21,14 +21,17 @@
     "temperature",
     "watcher",
     "tracker",
-    "automatic notification"
+    "automatic notification",
+    "sensor",
+    "readings",
+    "notification"
   ],
   "author": "Guilherme Rossato",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/GuilhermeRossato/Temperature-Watcher/issues"
+    "url": "https://github.com/GuilhermeRossato/Sensor-Tracker-App/issues"
   },
-  "homepage": "https://github.com/GuilhermeRossato/Temperature-Watcher#readme",
+  "homepage": "https://github.com/GuilhermeRossato/Sensor-Tracker-App#readme",
   "dependencies": {
     "angular": "^1.7.8",
     "angular-route": "^1.7.8",
