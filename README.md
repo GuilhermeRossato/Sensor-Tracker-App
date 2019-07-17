@@ -1,4 +1,4 @@
-# SensorFridge Temperature Watcher
+# Sensor Temperature Watcher
 
 An application to keep track of a list of refrigerators temperatures and send notifications when sensor readings go outside of the acceptable range. Additionally it shows (in it's frontend) the reading history, so that you can watch the readings in real time.
 
@@ -18,6 +18,8 @@ npm run serve
 This will start a web server to run the application and reply requests at [localhost:8080](http://localhost:8080/) with [nodemon](https://www.npmjs.com/package/nodemon), a module that automatically restarts the server when file changes are detected.
 
 ## Preview
+
+This preview keeps tracks of the temperature sensors inside beer fridges:
 
 ![Preview](https://github.com/GuilhermeRossato/Temperature-Watcher/blob/master/public/preview.png?raw=true)
 
