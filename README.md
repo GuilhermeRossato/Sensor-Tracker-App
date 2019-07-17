@@ -1,4 +1,4 @@
-# Sensor Temperature Watcher
+# Sensor Reading Watcher App
 
 An application to keep track of a list of refrigerators temperatures and send notifications when sensor readings go outside of the acceptable range. Additionally it shows (in it's frontend) the reading history, so that you can watch the readings in real time.
 
